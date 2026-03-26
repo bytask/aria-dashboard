@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aria Dashboard</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <!-- Navbar -->
+  <nav class="navbar" id="navbar">
+    <div class="navbar-left">
+      <span class="navbar-clock" id="navbar-clock">--:--</span>
+      <span class="navbar-separator">|</span>
+      <span class="navbar-date" id="navbar-date">---</span>
+    </div>
+    <div class="navbar-center">
+      <span class="navbar-title">ARIA</span><span class="navbar-subtitle">Recursively Iterates Applications</span>
+    </div>
+    <div class="navbar-right">
+      <div class="navbar-icon" id="network-status" title="Network Status">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <circle cx="8" cy="8" r="5" fill="currentColor" class="network-dot"/>
+        </svg>
+        <span class="navbar-label" id="network-label">Online</span>
+      </div>
+      <a href="https://claude.ai" target="_blank" class="navbar-icon claude-link" title="Open Claude">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <path d="M8 1L14 4.5V11.5L8 15L2 11.5V4.5L8 1Z" stroke="currentColor" stroke-width="1.5" fill="none"/>
+          <circle cx="8" cy="8" r="2" fill="currentColor"/>
+        </svg>
+      </a>
+      <button class="navbar-icon settings-btn" id="settings-btn" title="Settings">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <path d="M8 10C9.10457 10 10 9.10457 10 8C10 6.89543 9.10457 6 8 6C6.89543 6 6 6.89543 6 8C6 9.10457 6.89543 10 8 10Z" stroke="currentColor" stroke-width="1.2"/>
+          <path d="M13 8C13 7.65 12.97 7.31 12.92 6.97L14.5 5.73L13 3.13L11.1 3.86C10.6 3.45 10.03 3.13 9.41 2.93L9 1H7L6.59 2.93C5.97 3.13 5.4 3.45 4.9 3.86L3 3.13L1.5 5.73L3.08 6.97C3.03 7.31 3 7.65 3 8C3 8.35 3.03 8.69 3.08 9.03L1.5 10.27L3 12.87L4.9 12.14C5.4 12.55 5.97 12.87 6.59 13.07L7 15H9L9.41 13.07C10.03 12.87 10.6 12.55 11.1 12.14L13 12.87L14.5 10.27L12.92 9.03C12.97 8.69 13 8.35 13 8Z" stroke="currentColor" stroke-width="1.2" fill="none"/>
+        </svg>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Responsive Tab Bar (visible only on narrow viewports) -->
+  <div class="responsive-tabs" id="responsive-tabs">
+    <button class="resp-tab active" data-category="schedule">Schedule</button>
+    <button class="resp-tab" data-category="messages">Messages</button>
+    <button class="resp-tab" data-category="feed">Feed</button>
+  </div>
+
+  <!-- Main Dashboard Grid -->
+  <main class="dashboard" id="dashboard">
+    <div class="widget-card widget-calendar-card" id="widget-calendar" data-category="schedule">
+      <div class="widget-header">
+        <svg class="widget-icon" width="18" height="18" viewBox="0 0 18 18"><rect x="2" y="3" width="14" height="13" rx="2" stroke="currentColor" stroke-width="1.3" fill="none"/><line x1="2" y1="7" x2="16" y2="7" stroke="currentColor" stroke-width="1.3"/><line x1="6" y1="1" x2="6" y2="5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/><line x1="12" y1="1" x2="12" y2="5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+        <h2>CALENDAR</h2>
+        <button class="cal-timepick-btn" id="timepick-btn" title="TimePick - Select available slots">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><rect x="3" y="4" width="18" height="18" rx="2" stroke="currentColor" stroke-width="2"/><path d="M3 10h18" stroke="currentColor" stroke-width="2"/><path d="M8 2v4M16 2v4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M8 15h3v3H8z" fill="currentColor" opacity="0.5"/><path d="M13 15h3v3h-3z" fill="currentColor" opacity="0.5"/></svg>
+          <span>TimePick</span>
+        </button>
+      </div>
+      <div class="widget-body calendar-widget-body" id="calendar-body"></div>
+    </div>
+
+    <div class="widget-card" id="widget-gmail" data-category="messages">
+      <div class="widget-header">
+        <svg class="widget-icon" width="18" height="18" viewBox="0 0 18 18"><rect x="2" y="4" width="14" height="10" rx="1.5" stroke="currentColor" stroke-width="1.3" fill="none"/><path d="M2 5.5L9 10L16 5.5" stroke="currentColor" stroke-width="1.3" fill="none"/></svg>
+        <h2>Gmail</h2>
+        <span class="badge" id="gmail-badge" style="display:none">0</span>
+      </div>
+      <div class="widget-body" id="gmail-body">
+        <div class="widget-loading">Loading...</div>
+      </div>
+    </div>
+
+    <div class="widget-card" id="widget-slack" data-category="messages">
+      <div class="widget-header">
+        <svg class="widget-icon" width="18" height="18" viewBox="0 0 18 18"><path d="M4 11.5a1.5 1.5 0 1 1 0-3h3v3a1.5 1.5 0 0 1-3 0zM11 4a1.5 1.5 0 1 1 3 0v3h-3V4zM6.5 4a1.5 1.5 0 0 1 3 0v3h-3V4z" stroke="currentColor" stroke-width="1.1" fill="none"/><rect x="4" y="7" width="10" height="4" rx="1" stroke="currentColor" stroke-width="1.1" fill="none"/></svg>
+        <h2>Slack</h2>
+        <span class="badge" id="slack-badge" style="display:none">0</span>
+      </div>
+      <div class="widget-body" id="slack-body">
+        <div class="widget-loading">Loading...</div>
+      </div>
+    </div>
+
+    <div class="widget-card" id="widget-github" data-category="messages">
+      <div class="widget-header">
+        <svg class="widget-icon" width="18" height="18" viewBox="0 0 18 18"><path d="M9 1C4.58 1 1 4.58 1 9c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 17 9c0-4.42-3.58-8-8-8z" fill="currentColor"/></svg>
+        <h2>GitHub Issues</h2>
+        <span class="badge" id="github-badge" style="display:none">0</span>
+      </div>
+      <div class="widget-body" id="github-body">
+        <div class="widget-loading">Loading...</div>
+      </div>
+    </div>
+
+    <div class="widget-card" id="widget-things" data-category="schedule">
+      <div class="widget-header">
+        <svg class="widget-icon" width="18" height="18" viewBox="0 0 18 18"><circle cx="9" cy="9" r="7" stroke="currentColor" stroke-width="1.3" fill="none"/><path d="M6 9L8 11L12 7" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
+        <h2>Things</h2>
+      </div>
+      <div class="widget-body" id="things-body">
+        <div class="widget-loading">Loading...</div>
+      </div>
+    </div>
+
+    <div class="widget-card" id="widget-news" data-category="feed">
+      <div class="widget-header">
+        <svg class="widget-icon" width="18" height="18" viewBox="0 0 18 18"><rect x="2" y="2" width="14" height="14" rx="2" stroke="currentColor" stroke-width="1.3" fill="none"/><line x1="5" y1="6" x2="13" y2="6" stroke="currentColor" stroke-width="1.3"/><line x1="5" y1="9" x2="10" y2="9" stroke="currentColor" stroke-width="1"/><line x1="5" y1="12" x2="12" y2="12" stroke="currentColor" stroke-width="1"/></svg>
+        <h2>News</h2>
+      </div>
+      <div class="widget-body" id="news-body">
+        <div class="widget-loading">Loading...</div>
+      </div>
+    </div>
+
+    <div class="widget-card" id="widget-xtrends" data-category="feed">
+      <div class="widget-header">
+        <svg class="widget-icon" width="18" height="18" viewBox="0 0 18 18"><path d="M1 1L7.5 9.5L1 17H2.8L8.4 10.7L13 17H17L10.2 8.1L16.3 1H14.5L9.3 6.9L5 1H1ZM3.5 2.5H4.8L14.5 15.5H13.2L3.5 2.5Z" fill="currentColor"/></svg>
+        <h2>X Trends</h2>
+      </div>
+      <div class="widget-body" id="xtrends-body">
+        <div class="widget-loading">Loading...</div>
+      </div>
+    </div>
+  </main>
+
+  <!-- TimePick Overlay -->
+  <div id="timepick-overlay" class="tp-overlay"></div>
+
+  <!-- Settings Panel -->
+  <div class="settings-overlay" id="settings-overlay"></div>
+  <aside class="settings-panel" id="settings-panel">
+    <div class="settings-header">
+      <h2>Settings</h2>
+      <button class="settings-close" id="settings-close">&times;</button>
+    </div>
+    <div class="settings-body">
+      <section class="settings-section">
+        <h3>Theme</h3>
+        <div class="settings-row">
+          <label>Appearance</label>
+          <select id="setting-theme">
+            <option value="auto">Auto</option>
+            <option value="light">Light</option>
+            <option value="dark">Dark</option>
+          </select>
+        </div>
+      </section>
+      <section class="settings-section">
+        <h3>Google Account</h3>
+        <p class="settings-hint">Calendar and Gmail integration</p>
+        <div class="settings-row">
+          <button class="settings-oauth-btn" id="google-oauth-btn">Sign in with Google</button>
+          <span class="settings-oauth-status" id="google-oauth-status"></span>
+        </div>
+        <div class="settings-row">
+          <label>Or paste token manually</label>
+          <input type="password" id="setting-google-token" placeholder="Google OAuth Token">
+        </div>
+      </section>
+      <section class="settings-section">
+        <h3>Slack</h3>
+        <div class="settings-row">
+          <label>Bot Token</label>
+          <input type="password" id="setting-slack-token" placeholder="xoxb-...">
+        </div>
+      </section>
+      <section class="settings-section">
+        <h3>News</h3>
+        <p class="settings-hint">Google News RSS (no key required) or NewsAPI.org</p>
+        <div class="settings-row">
+          <label>Source</label>
+          <select id="setting-news-source">
+            <option value="google">Google News RSS (free)</option>
+            <option value="newsapi">NewsAPI.org</option>
+          </select>
+        </div>
+        <div class="settings-row" id="newsapi-key-row" style="display:none">
+          <label>NewsAPI Key</label>
+          <input type="password" id="setting-news-key" placeholder="NewsAPI.org key">
+        </div>
+      </section>
+      <section class="settings-section">
+        <h3>X (Twitter) API</h3>
+        <p class="settings-hint">v2 API - filtered by your interests</p>
+        <div class="settings-row">
+          <label>Bearer Token</label>
+          <input type="password" id="setting-x-token" placeholder="AAAA...">
+        </div>
+        <div class="settings-row">
+          <label>Interest keywords (comma separated)</label>
+          <input type="text" id="setting-x-keywords" placeholder="AI, programming, design, startup">
+        </div>
+      </section>
+      <section class="settings-section">
+        <h3>Things</h3>
+        <div class="settings-row">
+          <label>Server URL</label>
+          <input type="url" id="setting-things-url" placeholder="http://localhost:5001">
+        </div>
+      </section>
+      <section class="settings-section">
+        <h3>GitHub</h3>
+        <div class="settings-row">
+          <label>Personal Access Token</label>
+          <input type="password" id="setting-github-token" placeholder="ghp_...">
+        </div>
+        <div class="settings-row">
+          <label>Repository</label>
+          <input type="text" id="setting-github-repo" placeholder="owner/repo">
+        </div>
+      </section>
+      <button class="settings-save" id="settings-save">Save</button>
+    </div>
+  </aside>
+
+  <!-- Scripts -->
+  <script src="js/utils/storage.js"></script>
+  <script src="js/utils/api.js"></script>
+  <script src="js/widgets/navbar.js"></script>
+  <script src="js/widgets/calendar.js"></script>
+  <script src="js/widgets/gmail.js"></script>
+  <script src="js/widgets/slack.js"></script>
+  <script src="js/widgets/news.js"></script>
+  <script src="js/widgets/things.js"></script>
+  <script src="js/widgets/github.js"></script>
+  <script src="js/widgets/xtrends.js"></script>
+  <script src="js/widgets/timepick.js"></script>
+  <script src="js/settings.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

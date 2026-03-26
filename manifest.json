@@ -1,0 +1,33 @@
+{
+  "manifest_version": 3,
+  "name": "ARIA - Recursively Iterates Applications",
+  "version": "1.0.0",
+  "description": "Apple-inspired new tab dashboard with calendar, email, slack, news, tasks, and more",
+  "chrome_url_overrides": {
+    "newtab": "newtab.html"
+  },
+  "permissions": [
+    "storage",
+    "identity"
+  ],
+  "host_permissions": [
+    "https://www.googleapis.com/*",
+    "https://slack.com/api/*",
+    "https://newsapi.org/*",
+    "https://api.github.com/*",
+    "https://api.x.com/*",
+    "https://news.google.com/*"
+  ],
+  "oauth2": {
+    "client_id": "399912483024-jbo25igalktnee896amaficg3vekicjb.apps.googleusercontent.com",
+    "scopes": [
+      "https://www.googleapis.com/auth/calendar.readonly",
+      "https://www.googleapis.com/auth/gmail.readonly"
+    ]
+  },
+  "icons": {
+    "16": "icons/icon-16.png",
+    "48": "icons/icon-48.png",
+    "128": "icons/icon-128.png"
+  }
+}

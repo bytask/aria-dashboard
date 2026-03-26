@@ -50,6 +50,7 @@ const Settings = {
     document.getElementById('setting-things-url').value = Storage.get('things_url', '');
     document.getElementById('setting-github-token').value = Storage.get('github_token', '');
     document.getElementById('setting-github-repo').value = Storage.get('github_repo', '');
+    document.getElementById('setting-aria-engine-url').value = Storage.get('aria_engine_url', '');
 
     // Show/hide NewsAPI key row
     document.getElementById('newsapi-key-row').style.display =
@@ -102,6 +103,7 @@ const Settings = {
     const thingsUrl = document.getElementById('setting-things-url').value.trim();
     const githubToken = document.getElementById('setting-github-token').value.trim();
     const githubRepo = document.getElementById('setting-github-repo').value.trim();
+    const ariaEngineUrl = document.getElementById('setting-aria-engine-url').value.trim();
 
     Storage.set('theme', theme);
     Storage.set('news_source', newsSource);
@@ -115,6 +117,7 @@ const Settings = {
       ['things_url', thingsUrl],
       ['github_token', githubToken],
       ['github_repo', githubRepo],
+      ['aria_engine_url', ariaEngineUrl],
     ];
     for (const [key, val] of pairs) {
       if (val) Storage.set(key, val);
@@ -131,6 +134,7 @@ const Settings = {
     NewsWidget.render();
     XTrendsWidget.render();
     GitHubWidget.render();
+    SessionsWidget.render();
 
     this.close();
   },

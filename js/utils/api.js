@@ -92,6 +92,12 @@ const MockData = {
     { topic: 'Figma AI', posts: '2.9K', url: 'https://x.com/search?q=Figma+AI' },
   ],
 
+  sessions: [
+    { session_id: 'demo-1', workspace: 'workspaces-test', first_message: 'LINEスタンプを作りたい、進めてください', message_count: 30, started_at: '2026-03-26T11:37:08Z', last_activity: '2026-03-26T14:18:20Z' },
+    { session_id: 'demo-2', workspace: 'workspaces-ideabox', first_message: 'アイデアを記憶、整理、統合する作業をやって欲しい', message_count: 1, started_at: '2026-03-25T16:15:22Z', last_activity: '2026-03-25T16:15:22Z' },
+    { session_id: 'demo-3', workspace: 'workspaces-piper', first_message: 'CLAUDE.mdの内容を要約して', message_count: 1, started_at: '2026-03-22T08:19:58Z', last_activity: '2026-03-22T08:19:58Z' },
+  ],
+
   github: [
     { title: 'Fix authentication flow for OAuth redirect', number: 142, state: 'open', user: 'alex-dev', time: '2h ago', url: '#', labels: [{ name: 'bug', color: '#d73a4a' }] },
     { title: 'Add dark mode support to settings panel', number: 138, state: 'open', user: 'sarah-ui', time: '5h ago', url: '#', labels: [{ name: 'enhancement', color: '#a2eeef' }] },

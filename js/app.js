@@ -17,6 +17,7 @@ const App = {
     NewsWidget.init();
     XTrendsWidget.init();
     GitHubWidget.init();
+    KoreanKeyboardWidget.init();
     SessionsWidget.init();
     TimePick.init();
     Settings.init();
